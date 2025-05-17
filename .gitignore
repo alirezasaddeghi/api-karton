@@ -1,0 +1,19 @@
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore vendor or dependencies (اگه داری)
+vendor/
+
+# Ignore IDE/editor files
+.idea/
+.vscode/
+
+# Ignore Docker volumes or build cache (اگه لازمه)
+docker/php/vendor/
+
+# Ignore logs
+*.log
+
+# Ignore any secrets
+.env
