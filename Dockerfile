@@ -20,6 +20,11 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -f index.nginx-debian.html
 
+RUN rm -f /etc/nginx/sites-enabled/default
+
+# Configure PHP-FPM to listen on TCP instead of socket
+RUN sed -i 's/listen = \/run\/php\/php8.2-fpm.sock/listen = 127.0.0.1:9000/' /usr/local/etc/php-fpm.d/www.conf
+
 # Supervisor config
 COPY ./supervisord.conf /etc/supervisord.conf
 
