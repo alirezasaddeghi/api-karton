@@ -24,7 +24,7 @@ RUN rm -f index.nginx-debian.html
 COPY ./supervisord.conf /etc/supervisord.conf
 
 # Expose port
-EXPOSE 8080
+EXPOSE 80
 
 # Start supervisor (runs nginx + php-fpm)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
