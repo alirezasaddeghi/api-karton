@@ -18,6 +18,8 @@ COPY . /var/www/html
 # Nginx config
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
+RUN rm -f index.nginx-debian.html
+
 # Supervisor config
 COPY ./supervisord.conf /etc/supervisord.conf
 
