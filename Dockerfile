@@ -1,36 +1,28 @@
-FROM debian:bullseye
+FROM php:8.2-fpm
 
-# Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install nginx, PHP and required extensions
+# Install system dependencies and nginx
 RUN apt-get update && apt-get install -y \
     nginx \
-    php8.2-fpm \
-    php8.2-mysql \
-    php8.2-cli \
-    php8.2-zip \
-    php8.2-curl \
-    php8.2-mbstring \
-    php8.2-xml \
-    php8.2-pdo \
-    php8.2-common \
+    supervisor \
     unzip \
     curl \
-    supervisor \
-    && apt-get clean
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-# Copy app files
+# Copy application files
 COPY . /var/www/html
 
-# Copy nginx config
-COPY ./nginx/default.conf /etc/nginx/sites-available/default
+# Nginx config
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Configure supervisor to run both nginx and php-fpm
+# Supervisor config
 COPY ./supervisord.conf /etc/supervisord.conf
 
 # Expose port
 EXPOSE 8080
 
-# Start services
+# Start supervisor (runs nginx + php-fpm)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
